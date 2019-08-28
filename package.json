@@ -1,0 +1,23 @@
+{
+  "name": "bom-weather-aggregator",
+  "version": "1.0.0",
+  "description": "BOM weather aggregator and CLI CSV file selector",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -w src/test/**.test.js",
+    "dev": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dompainter/bom-weather-aggregator.git"
+  },
+  "author": "Dom Painter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dompainter/bom-weather-aggregator/issues"
+  },
+  "homepage": "https://github.com/dompainter/bom-weather-aggregator#readme",
+  "devDependencies": {
+    "mocha": "^6.2.0"
+  }
+}

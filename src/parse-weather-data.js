@@ -29,14 +29,14 @@ module.exports = weatherData =>
             }
         }
 
-        // If the current year doesnt already have a Month object for `month`, create one using the shape
-        const currentMonthName = calendarMonths[Number(month)]
+        const currentMonthName = calendarMonths[Number(month) - 1] // month is not zero indexed but our array is
         const foundMonth = acc[year].MonthlyAggregates.find(({Month}) => Month === currentMonthName)
+        // If the current year doesnt already have a Month object for `month`, create one using the  default shape
         const monthAggregate = foundMonth || getMonthObject(currentMonthName)
 
-        // Sum up the TotalRainfall value for a year
+        // Increment the TotalRainfall value for a year and current month aggregate
         acc[year].TotalRainfall += rainfallAmount
-        monthAggregate.TotalRainfall += rainfallAmount // update month rainfall total
+        monthAggregate.TotalRainfall += rainfallAmount
 
         // Increase daysWith and daysWithNo depending on level of rainfall
         if (rainfallAmount) {

@@ -12,5 +12,5 @@ BOM weather data aggregator and CLI for CSV file selection
 4. Once data has been processed, a JSON file will be outputted in the current directory.
 
 ### TODO
--[] More tests
--[] Calculate First and Last rainfall date for years and months
+- [ ]  More tests
+- [ ]  Calculate First and Last rainfall date for years and months

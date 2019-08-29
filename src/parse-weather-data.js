@@ -1,32 +1,36 @@
 module.exports = weatherData => {
     return weatherData.reduce((acc, curr) => {
-        if (!acc[curr.Year]) {
+        const {Year: year, Month: month, Day: day, 'Rainfall amount (millimetres)': rainfall} = curr
+        const rainfallAmount = Number(rainfall)
+		
+        if (!acc[year]) {
             // Start object structure for a year entry
-            acc[curr.Year] = {
-                Year: curr.Year,
-                FirstRecordedDate: 0,
-                LastRecordedDate: 0,
+            acc[year] = {
+                Year: year,
+                FirstRecordedDate: '',
+                LastRecordedDate: '',
                 TotalRainfall: 0,
                 AverageDailyRainfall: 0,
                 DaysWithNoRainfall: 0,
                 DaysWithRainfall: 0,
+                MonthlyAggregates: []
             }
         }
 
         // Sum up the TotalRainfall value for a year
-        acc[curr.Year].TotalRainfall += Number(curr['Rainfall amount (millimetres)'])
+        acc[year].TotalRainfall += rainfallAmount
 
         // Increase daysWith and daysWithNo depending on level of rainfall
-        if (Number(curr['Rainfall amount (millimetres)'])) {
-            acc[curr.Year].DaysWithRainfall++ 
+        if (rainfallAmount) {
+            acc[year].DaysWithRainfall++ 
         } else {
-            acc[curr.Year].DaysWithNoRainfall++
+            acc[year].DaysWithNoRainfall++
         }
 
-        const totalDays = acc[curr.Year].DaysWithRainfall + acc[curr.Year].DaysWithNoRainfall
+        const totalDays = acc[year].DaysWithRainfall + acc[year].DaysWithNoRainfall
 
         // Update the average daily rainfall
-        acc[curr.Year].AverageDailyRainfall = acc[curr.Year].TotalRainfall / totalDays 
+        acc[year].AverageDailyRainfall = acc[year].TotalRainfall / totalDays 
 
         return acc
     }, {})

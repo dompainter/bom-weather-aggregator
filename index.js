@@ -11,24 +11,31 @@ const rl = readline.createInterface({
 rl.question('Please enter a CSV file path: ', filepath => {
     console.log(`Reading file at path: ${filepath}`);
     let buffer = ''
+
+    const date = new Date()
+    const filename = `weather-data-${date.getTime()}.json`
+
+    let writeStream = fs.createWriteStream(filename)
     
-    const fileStream = fs.createReadStream(filepath || 's.csv')
+    const readStream = fs.createReadStream(filepath)
     
-    fileStream.on('data', data => {
+    readStream.on('data', data => {
         buffer += data.toString()
         const parsedData = parseCsv(buffer)
 
-        const weatherData = parseWeatherData(parsedData)
-		console.log("​weatherData", weatherData)
+        const weatherData = {
+            WeatherData: {
+                WeatherDataForYear: Object.values(parseWeatherData(parsedData))
+            }
+        }
+
+        console.log(`Writing to file: ${filename}`)
+        writeStream.write(JSON.stringify(weatherData))
     })
     
-    fileStream.on('error', error => {
+    readStream.on('error', error => {
         console.warn('An error has occurred', error)
         process.exit()
-    })
-
-    fileStream.on('end', () => {
-        console.log('Finished reading file')
     })
 
     rl.close()

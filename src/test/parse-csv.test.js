@@ -25,7 +25,7 @@ const expectedData = [{
 describe('Parse CSV', function () {
     it('Should return CSV data in correct format', function (done) {
         const data = fs.readFileSync('./src/test/test-csv.csv')
-        const parsedData = parseCsv(data.toString(), ',')
+        const parsedData = parseCsv(data.toString())
 
         assert.deepEqual(parsedData, expectedData)
         done()

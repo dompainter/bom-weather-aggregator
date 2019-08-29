@@ -1,6 +1,7 @@
 const fs = require('fs')
 const readline = require('readline')
 const parseCsv = require('./src/parse-csv')
+const parseWeatherData = require('./src/parse-weather-data')
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -9,26 +10,26 @@ const rl = readline.createInterface({
   
 rl.question('Please enter a CSV file path: ', filepath => {
     console.log(`Reading file at path: ${filepath}`);
+    let buffer = ''
+    
+    const fileStream = fs.createReadStream(filepath || 's.csv')
+    
+    fileStream.on('data', data => {
+        buffer += data.toString()
+        const parsedData = parseCsv(buffer)
 
-    rl.question('Please set a delimiter (default: ,)', delimeter => {
-        let buffer = ''
-    
-        const fileStream = fs.createReadStream(filepath || 's.csv')
-    
-        fileStream.on('data', data => {
-            buffer += data.toString()
-            const parsedData = parseCsv(buffer, delimeter || ',')
-        })
-    
-        fileStream.on('error', error => {
-            console.warn('An error has occurred', error)
-            process.exit()
-        })
-    
-        fileStream.on('end', () => {
-            console.log('Finished reading file')
-        })
-    
-        rl.close()
+        const weatherData = parseWeatherData(parsedData)
+		console.log("​weatherData", weatherData)
     })
+    
+    fileStream.on('error', error => {
+        console.warn('An error has occurred', error)
+        process.exit()
+    })
+
+    fileStream.on('end', () => {
+        console.log('Finished reading file')
+    })
+
+    rl.close()
 })

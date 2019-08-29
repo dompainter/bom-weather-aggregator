@@ -1,11 +1,11 @@
-module.exports = (data, delimiter) => {
+module.exports = data => {
     const [headers, ...values] = data.split(`\n`)
 
     return values.map(row =>
-        headers.split(delimiter)
+        headers.split(',')
             .reduce((current, next, index) => ({
                 ...current,
-                [next]: row.split(delimiter)[index]
+                [next]: row.split(',')[index]
             }), {})
     )
 }

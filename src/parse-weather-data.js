@@ -23,6 +23,11 @@ module.exports = weatherData => {
             acc[curr.Year].DaysWithNoRainfall++
         }
 
+        const totalDays = acc[curr.Year].DaysWithRainfall + acc[curr.Year].DaysWithNoRainfall
+
+        // Update the average daily rainfall
+        acc[curr.Year].AverageDailyRainfall = acc[curr.Year].TotalRainfall / totalDays 
+
         return acc
     }, {})
 }
